@@ -21,7 +21,9 @@
             android:name=".PersonContentProvider"
             android:authorities="com.example.rodneytressler.contentproviderpractice.provider"
             android:exported="true"
-            android:permission="com.example.android.contentprovidersample.provider.READ_WRITE"/>
+            android:permission="com.example.android.contentprovidersample.provider.READ_WRITE" />
+
+        <activity android:name=".AddPersonActivity"></activity>
     </application>
 
 </manifest>

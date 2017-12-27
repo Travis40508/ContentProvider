@@ -19,6 +19,7 @@ public abstract class PersonDatabase extends RoomDatabase{
     public static PersonDatabase getInstance(Context context) {
         if(INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), PersonDatabase.class, "data-base")
+                    .allowMainThreadQueries()
                     .build();
         }
         return INSTANCE;
