@@ -38,6 +38,8 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
             holder.personName.setText(personList.getString(personList.getColumnIndexOrThrow(Person.COLUMN_NAME)));
             holder.personAge.setText(personList.getString(personList.getColumnIndexOrThrow(Person.COLUMN_AGE)));
 
+            personList.moveToPosition(position);
+
             final int idIndex = personList.getColumnIndex(Person.COLUMN_ID);
             final int id = personList.getInt(idIndex);
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
