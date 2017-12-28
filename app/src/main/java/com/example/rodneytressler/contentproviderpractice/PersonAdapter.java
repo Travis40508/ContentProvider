@@ -2,6 +2,7 @@ package com.example.rodneytressler.contentproviderpractice;
 
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,11 @@ import java.util.List;
 
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonViewHolder> {
 
+    private final Callback callback;
     private Cursor personList;
 
-    public PersonAdapter() {
+    public PersonAdapter(Callback callback) {
+        this.callback = callback;
     }
 
     @Override
@@ -32,10 +35,20 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
     }
 
     @Override
-    public void onBindViewHolder(PersonViewHolder holder, int position) {
+    public void onBindViewHolder(final PersonViewHolder holder, final int position) {
         if(personList.moveToPosition(position)) {
             holder.personName.setText(personList.getString(personList.getColumnIndexOrThrow(Person.COLUMN_NAME)));
             holder.personAge.setText(personList.getString(personList.getColumnIndexOrThrow(Person.COLUMN_AGE)));
+
+            final int idIndex = personList.getColumnIndex(Person.COLUMN_ID);
+            final int id = personList.getInt(idIndex);
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    callback.itemLongPressed(id);
+                    return false;
+                }
+            });
         }
     }
 
@@ -50,11 +63,16 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
 
         private TextView personAge;
 
-        public PersonViewHolder(View itemView) {
+        public PersonViewHolder(final View itemView) {
             super(itemView);
             personName = itemView.findViewById(R.id.text_name);
             personAge = itemView.findViewById(R.id.text_age);
+
         }
 
+    }
+
+    interface Callback {
+        void itemLongPressed(int tag);
     }
 }
