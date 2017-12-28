@@ -1,5 +1,6 @@
 package com.example.rodneytressler.contentproviderpractice;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -10,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -94,5 +94,16 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Cal
 
         getSupportLoaderManager().restartLoader(LOADER_PEOPLE, null, mLoaderCallbacks);
         Toast.makeText(this, "Deleted!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void itemPressed(int id, ContentValues contentValues) {
+        String stringId = Integer.toString(id);
+        Uri uri = PersonContentProvider.URI_PERSON;
+        uri = uri.buildUpon().appendPath(stringId).build();
+
+        getContentResolver().update(uri, contentValues, null, null);
+        getSupportLoaderManager().restartLoader(LOADER_PEOPLE, null, mLoaderCallbacks);
+        Toast.makeText(this, "Updated!", Toast.LENGTH_SHORT).show();
     }
 }

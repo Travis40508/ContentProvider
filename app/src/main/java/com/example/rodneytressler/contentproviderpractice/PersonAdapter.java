@@ -1,14 +1,12 @@
 package com.example.rodneytressler.contentproviderpractice;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.List;
 
 /**
  * Created by rodneytressler on 12/27/17.
@@ -49,6 +47,17 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
                     return false;
                 }
             });
+
+            final ContentValues contentValues = new ContentValues();
+            contentValues.put(Person.COLUMN_NAME, holder.personName.getText().toString() + " SUCKS!");
+            contentValues.put(Person.COLUMN_AGE, holder.personAge.getText().toString());
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    callback.itemPressed(id, contentValues);
+                }
+            });
         }
     }
 
@@ -74,5 +83,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.PersonView
 
     interface Callback {
         void itemLongPressed(int tag);
+
+        void itemPressed(int id, ContentValues contentValues);
     }
 }
