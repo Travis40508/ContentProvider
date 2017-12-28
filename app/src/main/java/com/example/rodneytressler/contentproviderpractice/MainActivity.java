@@ -61,6 +61,13 @@ public class MainActivity extends AppCompatActivity implements PersonAdapter.Cal
 
                 @Override
                 public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+                    boolean cursorHasValidData = false;
+                    if (data != null && data.moveToFirst()) {
+                        cursorHasValidData = true;
+                    }
+                    if (!cursorHasValidData) {
+                        return;
+                    }
                     switch (loader.getId()) {
                         case LOADER_PEOPLE :
                             adapter.setList(data);
